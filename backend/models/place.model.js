@@ -27,7 +27,6 @@ const placesSchema = new Schema({
     },
     adminApproved:{
         type:Boolean,
-        required:true,
         dafault:false
     }
 },{timestamps:true});
