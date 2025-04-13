@@ -5,6 +5,7 @@ import { user } from "../models/user.model.js";
 
 export const create = async (req, res) => {
   try {
+    // console.log(req.params);
     const { rating } = req.body;
     if (!rating) {
       return res.status(400).json({
@@ -21,6 +22,7 @@ export const create = async (req, res) => {
     }
     const Place = await place.findById(req.params.id);
     newreview.author = req.id;
+    // console.log(req.params.id);
     if (!Place) {
       return res.status(400).json({
         message: "This place has been deleted",
@@ -60,7 +62,7 @@ export const updateReview = async(req,res)=>{
       success:false
     })
   }
-  const newReview = req.body;
+  let newReview = req.body;
   if(newReview.rating) oldReview.rating = newReview.rating;
   if(newReview.message) oldReview.message = newReview.message;
 

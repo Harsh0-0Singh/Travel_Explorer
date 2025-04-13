@@ -4,7 +4,7 @@ import isReviewAuthor from "../middleware/isReviewAuthor.js";
 import { create, deleteReview, updateReview } from "../controllers/review.controller.js";
 
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router.route("/create").post(isAuthenticated, create);
 router.route("/update/:reviewId").put(isAuthenticated,isReviewAuthor,updateReview);

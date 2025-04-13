@@ -16,7 +16,7 @@ app.use(cookieParser())
 
 app.use("/user",userRoute);
 app.use("/place",placeRoute);
-app.use("/place/:id/review",reviewRoute);
+app.use("/place/:id/reviews",reviewRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server active at ${process.env.PORT}`);

@@ -4,7 +4,7 @@ const isOwner = async(req,res,next)=>{
     try {
       const{id}= req.params;
       const userId = req.id;
-      const Place = false;
+      let Place = false;
       if(id){
        Place =  await place.findById(id);
       }
@@ -14,7 +14,7 @@ const isOwner = async(req,res,next)=>{
             succeess:false
         })
       }
-     if(Place.author !== userId)
+     if(!Place.author.equals(userId))
      {
         return res.status(400).json({
             message:"You are not the author of this listing",
