@@ -1,34 +1,51 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEarlybirds } from "react-icons/fa";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUserInput } from "../../redux/authSlice";
 const Signup = () => {
-  const[input,setInput]= useState({
-    fullname:"",
-    email:"",
-    password:"",
-    phoneNumber:"",
-  })
-
-  const changeEventHandler=(e)=>{
-  setInput({...input,[e.target.name]:e.target.value})
-  }
-  const submitHandler = async(e)=>{
-  const formData = new FormData();
-  formData.append("fullname",input.fullname);
-  formData.append("email",input.email);
-  formData.append("password",input.password);
-  formData.append("phoneNumber",input.phoneNumber);
-  try{
-
-  }catch(error){
-   console.log(error)
-  }
-  }
+  const [input, setInput] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+  });
+  const { user, loading } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const changeEventHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
+  const submitHandler = async(e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullname", input.fullname);
+    formData.append("email", input.email);
+    formData.append("password", input.password);
+    formData.append("phoneNumber", input.phoneNumber);
+    try {
+      dispatch(setLoading(true));
+      dispatch(setUserInput(input));
+      navigate("/otpAuth");
+    } catch (error) {
+      console.log(error);
+    }
+    finally{
+      dispatch(setLoading(false));
+    }
+  };
+  useEffect(() => {
+    if (user) {
+        navigate("/");
+    }
+}, [])
   return (
     <div className=" flex items-center justify-center max-w-3xl mx-auto ">
-      <form className="border-5 w-3/4 border-blue-100 p-4 my-10 rounded-2xl">
-      <div className="flex justify-center w-full"><FaEarlybirds className="text-[#000052]  rounded-lg text-6xl" /></div>
+      <form onSubmit={submitHandler} className="border-5 w-3/4 border-blue-100 p-4 my-10 rounded-2xl">
+        <div className="flex justify-center w-full">
+          <FaEarlybirds className="text-[#000052]  rounded-lg text-6xl" />
+        </div>
         <h1 className="text-center font-bold text-blue-900 text-2xl">Signup</h1>
         <div className="mb-2 flex flex-col">
           <label htmlFor="fullname">Fullname</label>
@@ -36,6 +53,8 @@ const Signup = () => {
             className="border border-blue-200 p-2 rounded-lg"
             type="text"
             id="fullname"
+            value={input.fullname}
+            onChange={changeEventHandler}
             name="fullname"
             placeholder="Enter your Fullname"
           />
@@ -46,6 +65,8 @@ const Signup = () => {
             className="border border-blue-200 p-2 rounded-lg"
             type="text"
             id="email"
+            value={input.email}
+            onChange={changeEventHandler}
             name="email"
             placeholder="Enter your Email"
           />
@@ -56,6 +77,8 @@ const Signup = () => {
             className="border border-blue-200 p-2 rounded-lg"
             type="text"
             id="password"
+            value={input.password}
+            onChange={changeEventHandler}
             name="password"
             placeholder="Enter your Password"
           />
@@ -66,13 +89,15 @@ const Signup = () => {
             className="border border-blue-200 p-2 rounded-lg"
             type="text"
             id="phoneNumber"
+            value={input.phoneNumber}
+            onChange={changeEventHandler}
             name="phoneNumber"
             placeholder="Enter your Phone Number"
           />
         </div>
         <div className="mb-2 flex flex-col">
           <br />
-          <button className=" bg-blue-900 text-white p-2 rounded-lg">
+          <button type="submit" className=" bg-blue-900 text-white p-2 rounded-lg">
             Submit
           </button>
         </div>

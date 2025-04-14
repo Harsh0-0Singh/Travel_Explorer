@@ -5,10 +5,12 @@ const Home = lazy(() => import("./components/Home"));
 const Login = lazy(() => import("./components/auth/Login"));
 const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
+const PageNotFound = lazy(()=>import("./components/shared/PageNotFound"));
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Loader from "./components/shared/Loader";
 import Navbar from "./components/shared/Navbar";
 import Footer from "./components/shared/Footer";
+import OtpAuth from "./components/auth/OtpAuth";
 function App() {
   return (
     <>
@@ -39,6 +41,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Signup />} />
+              <Route path="/otpAuth" element={<OtpAuth/>}/>
+              <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer />
           </Suspense>
