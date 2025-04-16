@@ -10,6 +10,7 @@ import otpGenerator from "otp-generator";
 export const sendRegisterOTP = async (req, res) => {
   try {
     const { email } = req.body;
+    console.log(email)
     if (!email)
       return res.status(400).json({
         message: "Email field is required",
@@ -75,7 +76,7 @@ export const sendRegisterOTP = async (req, res) => {
 export const signup = async (req, res) => {
   try {
     const { fullname, email, password, phoneNumber, otp } = req.body;
-
+     console.log("Backend working");
     if (!fullname || !email || !password || !phoneNumber || !otp) {
       return res.status(400).json({
         message: "Something is missing",

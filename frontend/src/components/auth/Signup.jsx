@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEarlybirds } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUserInput } from "../../redux/authSlice";
+import { USER_API_END_POINT } from "../../utils/contants";
 const Signup = () => {
   const [input, setInput] = useState({
     fullname: "",
@@ -17,7 +18,7 @@ const Signup = () => {
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
-  const submitHandler = async(e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("fullname", input.fullname);
@@ -27,22 +28,35 @@ const Signup = () => {
     try {
       dispatch(setLoading(true));
       dispatch(setUserInput(input));
-      navigate("/otpAuth");
+      const res = await axios.post(
+        `${USER_API_END_POINT}/sendRegisterOtp`,
+        { email: input.email },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res?.data?.success) {
+        navigate("/otpAuth");
+      } else {
+        navigate("/signup");
+      }
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       dispatch(setLoading(false));
     }
   };
   useEffect(() => {
     if (user) {
-        navigate("/");
+      navigate("/");
     }
-}, [])
+  }, []);
   return (
     <div className=" flex items-center justify-center max-w-3xl mx-auto ">
-      <form onSubmit={submitHandler} className="border-5 w-3/4 border-blue-100 p-4 my-10 rounded-2xl">
+      <form
+        onSubmit={submitHandler}
+        className="border-5 w-3/4 border-blue-100 p-4 my-10 rounded-2xl"
+      >
         <div className="flex justify-center w-full">
           <FaEarlybirds className="text-[#000052]  rounded-lg text-6xl" />
         </div>
@@ -75,7 +89,7 @@ const Signup = () => {
           <label htmlFor="password">Password</label>
           <input
             className="border border-blue-200 p-2 rounded-lg"
-            type="text"
+            type="password"
             id="password"
             value={input.password}
             onChange={changeEventHandler}
@@ -97,7 +111,10 @@ const Signup = () => {
         </div>
         <div className="mb-2 flex flex-col">
           <br />
-          <button type="submit" className=" bg-blue-900 text-white p-2 rounded-lg">
+          <button
+            type="submit"
+            className=" bg-blue-900 text-white p-2 rounded-lg"
+          >
             Submit
           </button>
         </div>
