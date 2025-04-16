@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUserInput, setUser } from "../../redux/authSlice";
 import { USER_API_END_POINT } from "../../utils/contants";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -38,6 +39,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message)
     } finally {
       setLoading(false);
     }
@@ -51,7 +53,7 @@ const Login = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
   return (
-    <div className="flex items-center justify-center max-w-3xl mx-auto ">
+    <div className="flex items-center justify-center mt-20 max-w-3xl mx-auto ">
       <form
         onSubmit={submitHandler}
         className="w-3/4  border-blue-100 p-4 my-10 rounded-2xl"

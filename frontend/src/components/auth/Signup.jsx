@@ -52,10 +52,10 @@ const Signup = () => {
     }
   }, []);
   return (
-    <div className=" flex items-center justify-center max-w-3xl mx-auto ">
+    <div className=" flex items-center mt-20 justify-center max-w-3xl mx-auto ">
       <form
         onSubmit={submitHandler}
-        className="border-5 w-3/4 border-blue-100 p-4 my-10 rounded-2xl"
+        className=" w-3/4 p-4 my-10 rounded-2xl"
       >
         <div className="flex justify-center w-full">
           <FaEarlybirds className="text-[#000052]  rounded-lg text-6xl" />
